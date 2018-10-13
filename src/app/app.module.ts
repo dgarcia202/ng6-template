@@ -15,6 +15,6 @@ import { LayoutModule } from './framework/layout/layout.module';
     LayoutModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

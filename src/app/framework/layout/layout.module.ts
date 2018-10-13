@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+
+import { MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule } from '@angular/material';
 
 import { LayoutComponent } from './layout.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ButtonModule
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule, 
+    MatIconModule    
   ],
   exports: [ LayoutComponent ],
-  declarations: [LayoutComponent]
+  declarations: [ LayoutComponent ]
 })
 export class LayoutModule { }
