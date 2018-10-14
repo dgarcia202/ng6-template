@@ -10,7 +10,9 @@ import {
   MatIconModule, 
   MatButtonModule, 
   MatTooltipModule, 
-  MatCheckboxModule } from '@angular/material'
+  MatCheckboxModule,
+  MatFormFieldModule,
+  MatInputModule } from '@angular/material'
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [ListViewComponent],
   exports: [ ListViewComponent ]

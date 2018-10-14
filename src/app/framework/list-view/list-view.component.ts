@@ -54,6 +54,8 @@ export class ListViewComponent implements OnInit {
 
   @Input() showDeleteAction: boolean = true;
 
+  @Input() showFilter: boolean = true;
+
   @Input() customActions: ListViewActionButton[] = [];
 
   @Output() add = new EventEmitter();
@@ -64,11 +66,11 @@ export class ListViewComponent implements OnInit {
 
   @Output() customAction = new EventEmitter<ListViewCustomActionEvent>();
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = [ 'position', 'name', 'weight', 'symbol' ];
  
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel(true, []);
 
   constructor() { }
 
@@ -93,6 +95,15 @@ export class ListViewComponent implements OnInit {
     }
 
     return true;
+  }
+
+  getDisplayedColumns(): string[] {
+    let defaults = [ 'select' ];
+    return defaults.concat(this.displayedColumns);
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   emitActionEvent(actionKey: string): void {
