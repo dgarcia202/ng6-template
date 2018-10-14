@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { LayoutModule } from './framework/layout/layout.module';
+import { ListViewModule } from './framework/list-view/list-view.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { LayoutModule } from './framework/layout/layout.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    LayoutModule
+    LayoutModule,
+    ListViewModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]
