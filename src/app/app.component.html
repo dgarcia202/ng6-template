@@ -1,7 +1,13 @@
 <app-layout [title]="title">
+    
     <app-list-view 
         headline="List View Component"
-        [customActions]="customActions">
+        [customActions]="customActions"
+        (add)="showEventData($event)"
+        (edit)="showEventData($event)"
+        (delete)="showEventData($event)"
+        (customAction)="showEventData($event)"
+        >
         
     </app-list-view>
 </app-layout>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 export interface PeriodicElement {
   name: string;
@@ -20,10 +20,15 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
-interface ListViewActionButton {
+export interface ListViewActionButton {
   key: string;
   tooltip: string;
   icon: string;
+}
+
+export interface ListViewCustomActionEvent {
+  actionKey: string;
+  items: string[]
 }
 
 @Component({
@@ -33,17 +38,23 @@ interface ListViewActionButton {
 })
 export class ListViewComponent implements OnInit {
 
-  defaultActions: ListViewActionButton[] = [
+  private defaultActions: ListViewActionButton[] = [
     { key: 'add', icon: 'add_box', tooltip: 'Add new item' },
     { key: 'edit', icon: 'edit', tooltip: 'Edit selected item' },
     { key: 'delete', icon: 'delete', tooltip: 'Remove selected items' }
   ];
 
-  @Input()
-  customActions: ListViewActionButton[] = [];
+  @Input() customActions: ListViewActionButton[] = [];
 
-  @Input()
-  headline: string;
+  @Input() headline: string;
+
+  @Output() add = new EventEmitter();
+
+  @Output() edit = new EventEmitter<string>();
+
+  @Output() delete = new EventEmitter<string[]>();
+
+  @Output() customAction = new EventEmitter<ListViewCustomActionEvent>();
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   public dataSource = ELEMENT_DATA;
@@ -52,6 +63,27 @@ export class ListViewComponent implements OnInit {
 
   actionButtons(): ListViewActionButton[] {
     return this.customActions.concat(this.defaultActions);
+  }
+
+  emitActionEvent(actionKey): void {
+
+    switch (actionKey) {
+      case 'add':
+        this.add.emit();  
+        break;
+
+      case 'edit':
+        this.edit.emit('12344');  
+        break;
+
+      case 'delete':
+        this.delete.emit(['2342343', '43423254']);  
+        break;
+        
+      default:
+        this.customAction.emit({ actionKey: actionKey, items: []});
+        break;
+    }
   }
 
   ngOnInit() {

@@ -8,7 +8,8 @@
       <ng-content select="[toolbar-right]"></ng-content>
       <button *ngFor="let button of actionButtons()" 
               mat-icon-button color="primary" 
-              [matTooltip]="button.tooltip">
+              [matTooltip]="button.tooltip"
+              (click)="emitActionEvent(button.key)">
 
           <mat-icon>{{ button.icon }}</mat-icon>
       </button>
