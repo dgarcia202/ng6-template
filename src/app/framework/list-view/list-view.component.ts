@@ -1,4 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import {MatTableDataSource} from '@angular/material';
 
 export interface PeriodicElement {
   name: string;
@@ -62,10 +64,16 @@ export class ListViewComponent implements OnInit {
 
   @Output() customAction = new EventEmitter<ListViewCustomActionEvent>();
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  public dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+ 
+  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  selection = new SelectionModel<PeriodicElement>(true, []);
 
   constructor() { }
+
+  ngOnInit() {
+  }
 
   actionButtons(): ListViewActionButton[] {
     return this.customActions.concat(this.defaultActions);
@@ -108,6 +116,15 @@ export class ListViewComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
   }
+
+  masterToggle(): void {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
+  }  
 }

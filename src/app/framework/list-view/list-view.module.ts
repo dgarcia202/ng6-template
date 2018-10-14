@@ -3,7 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { ListViewComponent } from './list-view.component';
 
-import { MatTableModule, MatPaginatorModule, MatToolbarModule, MatIconModule, MatButtonModule, MatTooltipModule } from '@angular/material'
+import { 
+  MatTableModule, 
+  MatPaginatorModule, 
+  MatToolbarModule, 
+  MatIconModule, 
+  MatButtonModule, 
+  MatTooltipModule, 
+  MatCheckboxModule } from '@angular/material'
 
 
 @NgModule({
@@ -14,7 +21,8 @@ import { MatTableModule, MatPaginatorModule, MatToolbarModule, MatIconModule, Ma
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
   ],
   declarations: [ListViewComponent],
   exports: [ ListViewComponent ]
