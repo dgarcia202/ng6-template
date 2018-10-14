@@ -20,6 +20,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
+interface ListViewActionButton {
+  tootip: string;
+  icon: string;
+}
+
 @Component({
   selector: 'app-list-view',
   templateUrl: './list-view.component.html',
@@ -27,7 +32,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ListViewComponent implements OnInit {
 
-  @Input() title: string;
+  actionButtons: ListViewActionButton[] = [];
+
+  @Input()
+  title: string;
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   public dataSource = ELEMENT_DATA;
@@ -36,6 +44,13 @@ export class ListViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.actionButtons = this.actionButtons.concat([
+      { icon: 'add_box', tootip: 'Add new item' },
+      { icon: 'edit', tootip: 'Edit selected item' },
+      { icon: 'delete', tootip: 'Remove selected items' }
+    ]);
+
+    console.log(this.actionButtons);
   }
 
 }
