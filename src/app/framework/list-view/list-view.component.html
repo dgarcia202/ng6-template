@@ -13,6 +13,7 @@
         <button *ngIf="isActionVisible(button.key)" 
                 mat-icon-button color="primary" 
                 [matTooltip]="button.tooltip"
+                [disabled]="!button.enabled"
                 (click)="emitActionEvent(button.key)">
 
             <mat-icon>{{ button.icon }}</mat-icon>

@@ -22,10 +22,16 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
+export interface ListViewColumnDefinition {
+  key: string;
+  headerText: string;
+}
+
 export interface ListViewActionButton {
   key: string;
   tooltip: string;
   icon: string;
+  enabled: boolean;
 }
 
 export interface ListViewCustomActionEvent {
@@ -41,9 +47,9 @@ export interface ListViewCustomActionEvent {
 export class ListViewComponent implements OnInit {
 
   private defaultActions: ListViewActionButton[] = [
-    { key: 'add', icon: 'add_box', tooltip: 'Add new item' },
-    { key: 'edit', icon: 'edit', tooltip: 'Edit selected item' },
-    { key: 'delete', icon: 'delete', tooltip: 'Remove selected items' }
+    { key: 'add', icon: 'add_box', enabled: true, tooltip: 'Add new item' },
+    { key: 'edit', icon: 'edit', enabled: false, tooltip: 'Edit selected item' },
+    { key: 'delete', icon: 'delete', enabled: false, tooltip: 'Remove selected items' }
   ];
 
   @Input() headline: string;
@@ -60,9 +66,9 @@ export class ListViewComponent implements OnInit {
 
   @Output() add = new EventEmitter();
 
-  @Output() edit = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<any>();
 
-  @Output() delete = new EventEmitter<string[]>();
+  @Output() delete = new EventEmitter<any[]>();
 
   @Output() customAction = new EventEmitter<ListViewCustomActionEvent>();
 
@@ -75,6 +81,13 @@ export class ListViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.selection.changed.subscribe(x => {
+      let itemsSelected = x.source.selected.length;
+      let editButton: ListViewActionButton = this.defaultActions.filter(y => y.key == 'edit')[0];
+      let deleteButton: ListViewActionButton = this.defaultActions.filter(y => y.key == 'delete')[0];
+      editButton.enabled = itemsSelected == 1;
+      deleteButton.enabled = itemsSelected > 0;
+    });
   }
 
   actionButtons(): ListViewActionButton[] {
@@ -114,15 +127,15 @@ export class ListViewComponent implements OnInit {
         break;
 
       case 'edit':
-        this.edit.emit('12344');  
+        this.edit.emit(this.selection.selected[0]);  
         break;
 
       case 'delete':
-        this.delete.emit(['2342343', '43423254']);  
+        this.delete.emit(this.selection.selected);  
         break;
         
       default:
-        this.customAction.emit({ actionKey: actionKey, items: []});
+        this.customAction.emit({ actionKey: actionKey, items: this.selection.selected});
         break;
     }
   }

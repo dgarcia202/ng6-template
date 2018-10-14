@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'ng6-template';
 
   customActions: ListViewActionButton[] = [
-    { key: 'alarm', icon: 'alarm', tooltip: 'ring alarm' }
+    { key: 'alarm', icon: 'alarm', enabled: true, tooltip: 'ring alarm' }
   ];
 
   showEventData(e): void {
