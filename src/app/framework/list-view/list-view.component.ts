@@ -21,7 +21,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 interface ListViewActionButton {
-  tootip: string;
+  tooltip: string;
   icon: string;
 }
 
@@ -35,7 +35,7 @@ export class ListViewComponent implements OnInit {
   actionButtons: ListViewActionButton[] = [];
 
   @Input()
-  title: string;
+  headline: string;
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   public dataSource = ELEMENT_DATA;
@@ -45,12 +45,10 @@ export class ListViewComponent implements OnInit {
 
   ngOnInit() {
     this.actionButtons = this.actionButtons.concat([
-      { icon: 'add_box', tootip: 'Add new item' },
-      { icon: 'edit', tootip: 'Edit selected item' },
-      { icon: 'delete', tootip: 'Remove selected items' }
+      { icon: 'add_box', tooltip: 'Add new item' },
+      { icon: 'edit', tooltip: 'Edit selected item' },
+      { icon: 'delete', tooltip: 'Remove selected items' }
     ]);
-
-    console.log(this.actionButtons);
   }
 
 }
