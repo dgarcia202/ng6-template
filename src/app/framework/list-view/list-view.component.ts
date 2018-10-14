@@ -21,6 +21,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 interface ListViewActionButton {
+  key: string;
   tooltip: string;
   icon: string;
 }
@@ -32,7 +33,13 @@ interface ListViewActionButton {
 })
 export class ListViewComponent implements OnInit {
 
-  actionButtons: ListViewActionButton[] = [];
+  defaultActionButtons: ListViewActionButton[] = [
+    { key: 'add', icon: 'add_box', tooltip: 'Add new item' },
+    { key: 'edit', icon: 'edit', tooltip: 'Edit selected item' },
+    { key: 'delete', icon: 'delete', tooltip: 'Remove selected items' }
+  ];
+
+  customActionButtons: ListViewActionButton[] = [];
 
   @Input()
   headline: string;
@@ -43,12 +50,11 @@ export class ListViewComponent implements OnInit {
 
   constructor() { }
 
+  actionButtons(): ListViewActionButton[] {
+    return this.customActionButtons.concat(this.defaultActionButtons);
+  }
+
   ngOnInit() {
-    this.actionButtons = this.actionButtons.concat([
-      { icon: 'add_box', tooltip: 'Add new item' },
-      { icon: 'edit', tooltip: 'Edit selected item' },
-      { icon: 'delete', tooltip: 'Remove selected items' }
-    ]);
   }
 
 }

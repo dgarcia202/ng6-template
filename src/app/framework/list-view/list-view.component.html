@@ -4,7 +4,7 @@
       <span>{{ headline }}</span>
       <span class="example-spacer"></span>
 
-      <button *ngFor="let button of actionButtons" 
+      <button *ngFor="let button of actionButtons()" 
               mat-icon-button color="primary" 
               [matTooltip]="button.tooltip">
 
