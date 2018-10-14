@@ -33,13 +33,14 @@ interface ListViewActionButton {
 })
 export class ListViewComponent implements OnInit {
 
-  defaultActionButtons: ListViewActionButton[] = [
+  defaultActions: ListViewActionButton[] = [
     { key: 'add', icon: 'add_box', tooltip: 'Add new item' },
     { key: 'edit', icon: 'edit', tooltip: 'Edit selected item' },
     { key: 'delete', icon: 'delete', tooltip: 'Remove selected items' }
   ];
 
-  customActionButtons: ListViewActionButton[] = [];
+  @Input()
+  customActions: ListViewActionButton[] = [];
 
   @Input()
   headline: string;
@@ -47,14 +48,12 @@ export class ListViewComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   public dataSource = ELEMENT_DATA;
 
-
   constructor() { }
 
   actionButtons(): ListViewActionButton[] {
-    return this.customActionButtons.concat(this.defaultActionButtons);
+    return this.customActions.concat(this.defaultActions);
   }
 
   ngOnInit() {
   }
-
 }

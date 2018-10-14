@@ -1,9 +1,11 @@
 <div class="content-wrapper">
 
-  <mat-toolbar class="mat-elevation-z4">
-      <span>{{ headline }}</span>
-      <span class="example-spacer"></span>
+  <h1 class="mat-h1">{{ headline }}</h1>
 
+  <mat-toolbar class="mat-elevation-z4">
+      <ng-content select="[toolbar-left]"></ng-content>
+      <span class="example-spacer"></span>
+      <ng-content select="[toolbar-right]"></ng-content>
       <button *ngFor="let button of actionButtons()" 
               mat-icon-button color="primary" 
               [matTooltip]="button.tooltip">
