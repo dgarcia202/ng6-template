@@ -44,9 +44,15 @@ export class ListViewComponent implements OnInit {
     { key: 'delete', icon: 'delete', tooltip: 'Remove selected items' }
   ];
 
-  @Input() customActions: ListViewActionButton[] = [];
-
   @Input() headline: string;
+
+  @Input() showAddAction: boolean = true;
+
+  @Input() showEditAction: boolean = true;
+
+  @Input() showDeleteAction: boolean = true;
+
+  @Input() customActions: ListViewActionButton[] = [];
 
   @Output() add = new EventEmitter();
 
@@ -65,7 +71,23 @@ export class ListViewComponent implements OnInit {
     return this.customActions.concat(this.defaultActions);
   }
 
-  emitActionEvent(actionKey): void {
+  isActionVisible(actionKey: string): boolean {
+    if (actionKey == 'add' && !this.showAddAction) {
+      return false;
+    }
+
+    if (actionKey == 'edit' && !this.showEditAction) {
+      return false;
+    }
+
+    if (actionKey == 'delete' && !this.showDeleteAction) {
+      return false;
+    }
+
+    return true;
+  }
+
+  emitActionEvent(actionKey: string): void {
 
     switch (actionKey) {
       case 'add':
