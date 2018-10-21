@@ -3,12 +3,14 @@ import { Component, OnInit, EventEmitter, Input, Output, ViewChild } from '@angu
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 
+/** Provides structure for the column properties expected from client component. */
 export interface ListViewColumnDefinition {
   key: string;
   headerText: string;
   visible: boolean;
 }
 
+/** Definition of a custom action button. */
 export interface ListViewActionButton {
   key: string;
   tooltip: string;
@@ -16,11 +18,16 @@ export interface ListViewActionButton {
   enabled: boolean;
 }
 
+/** Data emitted when a custom action button is pressed. */
 export interface ListViewCustomActionEvent {
   actionKey: string;
   items: string[]
 }
 
+/**
+ * A list view encapsulates a complete appication screen with a data table with multiple selection 
+ * and sortable columns with a toolbar and a filter control.
+ */
 @Component({
   selector: 'app-list-view',
   templateUrl: './list-view.component.html',
@@ -28,26 +35,24 @@ export interface ListViewCustomActionEvent {
 })
 export class ListViewComponent implements OnInit {
 
-  private defaultActions: ListViewActionButton[] = [
-    { key: 'add', icon: 'add_box', enabled: true, tooltip: 'Add new item' },
-    { key: 'edit', icon: 'edit', enabled: false, tooltip: 'Edit selected item' },
-    { key: 'delete', icon: 'delete', enabled: false, tooltip: 'Remove selected items' }
-  ];
-
-  @ViewChild(MatTable) listViewDataTable: MatTable<any>;
-
+  /** Main title line on top of the screen. */
   @Input() headline: string;
 
+  /** Whether to show the 'add' action button. */
   @Input() showAddAction: boolean = true;
-
+  /** Whether to show the 'edit' action button. */
   @Input() showEditAction: boolean = true;
 
+  /** Whether to show the 'delete' action button. */
   @Input() showDeleteAction: boolean = true;
 
+  /** Whether to show the filter text box. */
   @Input() showFilter: boolean = true;
 
+  /** Collection of client defined custom action button. */
   @Input() customActions: ListViewActionButton[] = [];
 
+  /** Table column definitions */
   @Input() columnDefinitions: ListViewColumnDefinition[] = [];
 
   @Output() add = new EventEmitter();
@@ -58,9 +63,19 @@ export class ListViewComponent implements OnInit {
 
   @Output() customAction = new EventEmitter<ListViewCustomActionEvent>();
  
-  dataSource = new MatTableDataSource([]);
+  private dataSource = new MatTableDataSource([]);
 
-  selection = new SelectionModel(true, []);
+  private selection = new SelectionModel(true, []);
+
+  /** 
+   * Add, edit and delete action buttons are predefined and stored in this private array so they can
+   * be injected later along with the custom ones
+   */
+  private defaultActions: ListViewActionButton[] = [
+    { key: 'add', icon: 'add_box', enabled: true, tooltip: 'Add new item' },
+    { key: 'edit', icon: 'edit', enabled: false, tooltip: 'Edit selected item' },
+    { key: 'delete', icon: 'delete', enabled: false, tooltip: 'Remove selected items' }
+  ];
 
   constructor() { }
 
