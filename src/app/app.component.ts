@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ListViewActionButton } from './framework/list-view/list-view.component'
+import { ListViewActionButton, ListViewColumnDefinition } from './framework/list-view/list-view.component'
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ export class AppComponent {
 
   title: string = 'ng6-template';
 
-  data = [
+  data: any[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
     {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
     {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
@@ -26,6 +26,13 @@ export class AppComponent {
 
   customActions: ListViewActionButton[] = [
     { key: 'alarm', icon: 'alarm', enabled: true, tooltip: 'ring alarm' }
+  ];
+
+  columnDefinitions: ListViewColumnDefinition[] = [
+    { key: 'position', headerText: 'No.', visible: true },
+    { key: 'name', headerText: 'name', visible: true },
+    { key: 'weight', headerText: 'weight', visible: true },
+    { key: 'symbol', headerText: 'symbol', visible: true }
   ];
 
   showEventData(e): void {

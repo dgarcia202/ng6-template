@@ -7,12 +7,12 @@
         [showEditAction]="true"
         [showDeleteAction]="true"
         [showFilter]="true"
+        [columnDefinitions]="columnDefinitions"
         [data]="data"
         (add)="showEventData($event)"
         (edit)="showEventData($event)"
         (delete)="showEventData($event)"
         (customAction)="showEventData($event)"
         >
-        
     </app-list-view>
 </app-layout>

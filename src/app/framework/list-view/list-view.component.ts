@@ -1,11 +1,12 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+
 import { SelectionModel } from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material';
-import { PublicFeature } from '@angular/core/src/render3';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 
 export interface ListViewColumnDefinition {
   key: string;
   headerText: string;
+  visible: boolean;
 }
 
 export interface ListViewActionButton {
@@ -33,6 +34,8 @@ export class ListViewComponent implements OnInit {
     { key: 'delete', icon: 'delete', enabled: false, tooltip: 'Remove selected items' }
   ];
 
+  @ViewChild(MatTable) listViewDataTable: MatTable<any>;
+
   @Input() headline: string;
 
   @Input() showAddAction: boolean = true;
@@ -45,6 +48,8 @@ export class ListViewComponent implements OnInit {
 
   @Input() customActions: ListViewActionButton[] = [];
 
+  @Input() columnDefinitions: ListViewColumnDefinition[] = [];
+
   @Output() add = new EventEmitter();
 
   @Output() edit = new EventEmitter<any>();
@@ -52,28 +57,22 @@ export class ListViewComponent implements OnInit {
   @Output() delete = new EventEmitter<any[]>();
 
   @Output() customAction = new EventEmitter<ListViewCustomActionEvent>();
-
-  displayedColumns: string[] = [ 'position', 'name', 'weight', 'symbol' ];
  
   dataSource = new MatTableDataSource([]);
 
   selection = new SelectionModel(true, []);
 
-  private _data: any[];
-
   constructor() { }
 
   @Input() set data(value: any[]) {
-    this._data = value;
-    this.dataSource = new MatTableDataSource(this._data);
+    this.dataSource = new MatTableDataSource(value);
   }
 
   get data(): any[] {
-    return this._data;
+    return this.dataSource.data;
   }
 
   ngOnInit() {
-
     // Update action buttons enabled state.
     this.selection.changed.subscribe(x => {
       let itemsSelected = x.source.selected.length;
@@ -83,7 +82,6 @@ export class ListViewComponent implements OnInit {
       editButton.enabled = itemsSelected == 1;
       deleteButton.enabled = itemsSelected > 0;
     });
-
   }
 
   actionButtons(): ListViewActionButton[] {
@@ -107,8 +105,14 @@ export class ListViewComponent implements OnInit {
   }
 
   getDisplayedColumns(): string[] {
+
     let defaults = [ 'select' ];
-    return defaults.concat(this.displayedColumns);
+
+    let displayedColumns = this.columnDefinitions
+      .filter(el => el.visible)
+      .map(el => el.key);
+
+    return defaults.concat(displayedColumns);
   }
 
   applyFilter(filterValue: string) {
